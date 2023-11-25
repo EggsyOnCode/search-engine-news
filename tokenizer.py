@@ -1,5 +1,7 @@
 import json
 import codecs
+from nltk.tokenize import word_tokenize
+import string
 
 # Read the JSON file
 with open('test.json', 'r', encoding='utf-8') as file:
@@ -11,8 +13,9 @@ content = json_data.get('content', '')
 # Decode escape sequences in the 'content' field
 content = codecs.decode(content, 'unicode_escape')
 
-# Split content into words
-word_list = content.split()
+# Tokenize content into words using NLTK and remove punctuation
+word_list = word_tokenize(content)
+word_list = [word for word in word_list if word.isalnum()]  # Remove punctuation
 
 # Create a new JSON object
 new_json = {

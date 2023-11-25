@@ -1,7 +1,12 @@
 import json
 import codecs
 from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
 import string
+
+# Download NLTK stopwords if not already downloaded
+import nltk
+nltk.download('stopwords')
 
 # Read the JSON file
 with open('test.json', 'r', encoding='utf-8') as file:
@@ -17,6 +22,10 @@ content = codecs.decode(content, 'unicode_escape')
 word_list = word_tokenize(content)
 word_list = [word for word in word_list if word.isalnum()]  # Remove punctuation
 
+# Remove stopwords
+stop_words = set(stopwords.words('english'))
+word_list = [word for word in word_list if word.lower() not in stop_words]
+
 # Create a new JSON object
 new_json = {
     'field': json_data.get('id', ''),
@@ -30,5 +39,5 @@ new_json = {
 }
 
 # Write the new JSON object to a file
-with open('new_data.json', 'w', encoding='utf-8') as new_file:
+with open('new_data2.json', 'w', encoding='utf-8') as new_file:
     json.dump(new_json, new_file, ensure_ascii=False, indent=2)

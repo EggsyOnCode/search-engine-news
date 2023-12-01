@@ -1,4 +1,4 @@
-from forward_index2 import ForwardIndex
+from forward_index import ForwardIndex
 import json
 
 

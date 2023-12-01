@@ -98,39 +98,41 @@ class ForwardIndex:
             'children': {char: self.serialize_tree(child) for char, child in node.children.items()}
         }
         return serialized_node
+    def deserialize_index_from_json(self, serialized_index):
+        # Deserialize the M-ary tree index from a JSON object
+        self.index = {key: self.deserialize_tree(value) for key, value in serialized_index.items()}
 
-# List of JSON documents similar to the provided structure
-list_of_documents = [
-    {
-        "field": "abcnews--2022-01-01--Colorado fire victims begin new year surveying destruction",
-        "date": "2022-01-01",
-        "source": "abcnews",
-        "title": "Colorado fire victims begin new year surveying destruction",
-        "word_list": ["Hundreds", "Colorado", "residents", "surveying", "more_words"],  # Replace ellipsis with actual words
-        "url": "https://abcnews.go.com/US/wireStory/mississippi-set-execute-man-killing-16-year-girl-95208253",
-        "author": "",
-        "publication_date": "Wed, 14 Dec 2022 01:46:18 -0500"
-    },
-    # Add more documents...
-]
+    def deserialize_tree(self, serialized_node):
+        # Recursively deserialize the M-ary tree from the JSON-serialized format
+        if serialized_node is None:
+            return None
 
-# Initialize Forward Index
-forward_index = ForwardIndex()
+        node = TrieNode()
+        node.is_end_of_word = serialized_node['is_end_of_word']
+        node.children = {char: self.deserialize_tree(child) for char, child in serialized_node['children'].items()}
+        return node
 
-# Build Forward Index for each document
-for doc in list_of_documents:
-    hash_value = forward_index.hash_document(doc['title'])
-    word_list = doc['word_list']
-    forward_index.insert_word_list(hash_value, word_list)
 
-# Example usage:
-# Retrieve word list for a specific document
-document_title = "Colorado fire victims begin new year surveying destruction"
-word_list_pointer = forward_index.get_word_list(document_title)
+# # List of JSON documents similar to the provided structure
+# list_of_documents = [
+#     {
+#         "field": "abcnews--2022-01-01--Colorado fire victims begin new year surveying destruction",
+#         "date": "2022-01-01",
+#         "source": "abcnews",
+#         "title": "Colorado fire victims begin new year surveying destruction",
+#         "word_list": ["Hundreds", "Colorado", "residents", "surveying", "more_words"],  # Replace ellipsis with actual words
+#         "url": "https://abcnews.go.com/US/wireStory/mississippi-set-execute-man-killing-16-year-girl-95208253",
+#         "author": "",
+#         "publication_date": "Wed, 14 Dec 2022 01:46:18 -0500"
+#     },
+#     # Add more documents...
+# ]
 
-if word_list_pointer:
-    print(f"Word list for '{document_title}': {word_list_pointer}")
-else:
-    print(f"Document '{document_title}' not found in the index.")
+# # Initialize Forward Index
+# forward_index = ForwardIndex()
 
-forward_index.serialize_index()
+# # Build Forward Index for each document
+# for doc in list_of_documents:
+#     hash_value = forward_index.hash_document(doc['title'])
+#     word_list = doc['word_list']
+#     forward_index.insert_word_list(hash_value, word_list)

@@ -5,6 +5,7 @@ from nltk.corpus import stopwords
 import string
 import nltk
 
+# Download NLTK stopwords if not already downloaded
 nltk.download('stopwords')
 
 def process_json(json_data):
@@ -37,7 +38,7 @@ def process_json(json_data):
     return new_json
 
 # Read the JSON file with an array of JSON objects
-with open('./test_data/test.json', 'r', encoding='utf-8') as file:
+with open('./test_data/abcnews.json', 'r', encoding='utf-8') as file:
     json_data_array = json.load(file)
 
 new_data = []

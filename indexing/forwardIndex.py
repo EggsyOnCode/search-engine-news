@@ -1,5 +1,7 @@
-import hashlib
-
+import hashlib\
+# for serializing the tree into json
+import json
+import os
 # Node structure for M-ary tree (Trie)
 class TrieNode:
     def __init__(self):
@@ -71,6 +73,31 @@ class ForwardIndex:
             print(node.children.keys())  # Print characters stored at the current node
             for child in node.children.values():
                 self.print_node_contents(child) 
+                
+    #serialization func 
+    def serialize_index(self):
+        # Serialize the M-ary tree index to JSON and save it in the 'forward_index' folder
+        serialized_index = {}
+        for key, root_node in self.index.items():
+            serialized_index[key] = self.serialize_tree(root_node)
+
+        folder_path = './indexing/forward_index'
+        if not os.path.exists(folder_path):
+            os.makedirs(folder_path)
+
+        with open(os.path.join(folder_path, 'index.json'), 'w') as json_file:
+            json.dump(serialized_index, json_file, indent=2)
+
+    def serialize_tree(self, node):
+        # Recursively serialize the M-ary tree to a JSON-serializable format
+        if node is None:
+            return None
+        
+        serialized_node = {
+            'is_end_of_word': node.is_end_of_word,
+            'children': {char: self.serialize_tree(child) for char, child in node.children.items()}
+        }
+        return serialized_node
 
 # List of JSON documents similar to the provided structure
 list_of_documents = [
@@ -105,4 +132,5 @@ if word_list_pointer:
     print(f"Word list for '{document_title}': {word_list_pointer}")
 else:
     print(f"Document '{document_title}' not found in the index.")
-    
+
+forward_index.serialize_index()

@@ -7,16 +7,7 @@ import nltk
 
 nltk.download('stopwords')
 
-# test data fro testing the script is located in /test_data
-
-# Read the JSON file
-with open('./test_data/abcnews.json', 'r', encoding='utf-8') as file:
-    json_data_array = json.load(file)
-
-new_data = []
-
-# Process each JSON object in the array
-for json_data in json_data_array:
+def process_json(json_data):
     # Extract necessary fields
     content = json_data.get('content', '')
 
@@ -43,8 +34,19 @@ for json_data in json_data_array:
         'publication_date': json_data.get('published', '')
     }
 
-    new_data.append(new_json)
+    return new_json
+
+# Read the JSON file with an array of JSON objects
+with open('./test_data/abcnews.json', 'r', encoding='utf-8') as file:
+    json_data_array = json.load(file)
+
+new_data = []
+
+# Process each JSON object in the array
+for json_data in json_data_array:
+    processed_json = process_json(json_data)
+    new_data.append(processed_json)
 
 # Write the new JSON objects to a file
-with open('./test_data/new_data2.json', 'w', encoding='utf-8') as new_file:
+with open('./test_data/new_output_file.json', 'w', encoding='utf-8') as new_file:
     json.dump(new_data, new_file, ensure_ascii=False, indent=2)

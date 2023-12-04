@@ -2,12 +2,14 @@ import json
 import os
 import hashlib
 from forward_index import ForwardIndex
+import re
 
 #Linked List Node stroing docId and frequency of the word in doc
 class ListNode:
-    def __init__(self,docId,frequency):
-        self.docID = docId
+    def __init__(self,frequency,title,url):
         self.frequency = frequency
+        self.title = title
+        self.url = url
         self.next = None
 #Converts wordIds to words and used for adding new words to lexicon
 class Lexicon:
@@ -33,29 +35,29 @@ class ReversedIndex:
         self.lexicon = Lexicon()
 #called to make new reversed index from pre generated forward index pass file path of forward index
     def genIndex(self,file_path):
-
-        forwardIndex = ForwardIndex()
-
-        forwardIndex.deserialize_index_from_json(file_path)
-
-        for docId in forwardIndex.index:
-            head = forwardIndex.index[docId]
-            self.traverseWordList(head,docId)
+        json_file_names = [filename for filename in os.listdir(file_path) if filename.endswith('.json')]
+        for json_file_name in json_file_names:  
+            forwardIndex = ForwardIndex()
+            forwardIndex.deserialize_index_from_json(os.path.join(file_path, json_file_name))
+            for docId in forwardIndex.index:
+                head = forwardIndex.index[docId]
+                temp = docId.split('\n')
+                self.traverseWordList(head,temp[0],temp[1])
             
-    def traverseWordList(self,head,docId):
+    def traverseWordList(self,head,title,url):
         while head:
-            self.addDoc(head.word,docId)
+            self.addDoc(head.word,title,url)
             head = head.next
 
-    def addDoc(self,word,docId):
-        head = ListNode(docId,1)
+    def addDoc(self,word,title,url):
+        head = ListNode(1,title,url)
         index = self.lexicon.getWordId(word)
         if index not in self.index:
             self.index[index] = head
         else:
             current = self.index[index]
             while current:
-                if current.docID == head.docID:
+                if current.title == head.title:
                     current.frequency += 1
                     return
                 prev = current
@@ -79,8 +81,21 @@ class ReversedIndex:
     def serialize_linked_list(self, head):
         serialized_list = []
         current = head
+        title = 'title:'
+        url = 'url:'
+        frequency = 'frequency:'
         while current: 
-            serialized_list.append(current.docID+" "+str(current.frequency))
+            title += current.title
+            url += current.url
+            frequency+= str(current.frequency)
+            serialized_list.append(  
+                    title + " " +
+                    url + " " +
+                    frequency
+                )
+            title = 'title:'
+            url = 'url:'
+            frequency = 'frequency:'
             current = current.next
         return serialized_list
 #store lexicon in json
@@ -103,13 +118,20 @@ class ReversedIndex:
     def deserialize_linked_list(self, serialized_list):
         if not serialized_list:
             return None
-        line = serialized_list[0].split()
-        head = ListNode(line[0],line[1])
+        str1 = 'title:'
+        str2 = 'url:'
+        str3 = 'frequency:'
+        head = ListNode(' ',' ',' ')
         current = head
-        for doc in serialized_list[1:]:
-            line = doc.split()
-            current = ListNode(line[0],line[1])
+        for doc in serialized_list:
+            title = doc.split(str1,1)[1]
+            title = title.split(str2,1)[0]
+            url = doc.split(str2,1)[1]
+            url = url.split(str3,1)[0]
+            frequency = doc.split(str3,1)[1]
+            current.next = ListNode(frequency,title,url)
             current = current.next
+        head = head.next
         return head
 #extract lexicon from json
     def deserialize_lexicon(self,file_path):

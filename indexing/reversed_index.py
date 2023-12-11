@@ -35,14 +35,12 @@ class ReversedIndex:
         self.lexicon = Lexicon()
 #called to make new reversed index from pre generated forward index pass file path of forward index
     def genIndex(self,file_path):
-        json_file_names = [filename for filename in os.listdir(file_path) if filename.endswith('.json')]
-        for json_file_name in json_file_names:  
-            forwardIndex = ForwardIndex()
-            forwardIndex.deserialize_index_from_json(os.path.join(file_path, json_file_name))
-            for docId in forwardIndex.index:
-                head = forwardIndex.index[docId]
-                temp = docId.split('\n')
-                self.traverseWordList(head,temp[0],temp[1])
+        forward_index = ForwardIndex()
+        forward_index.deserialize_index_from_json(file_path)
+
+        for doc_id, head in forward_index.index.items():
+            temp = doc_id.split('\n')
+            self.traverseWordList(head, temp[0], temp[1])
             
     def traverseWordList(self,head,title,url):
         while head:

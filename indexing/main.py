@@ -1,6 +1,13 @@
 from forward_index import ForwardIndex
 from reversed_index import ReversedIndex
 import json
+import os
+# Get the current file path
+current_file_path = os.path.realpath(__file__)
+
+# Get the parent directory
+parent_directory = os.path.dirname(os.path.dirname(current_file_path))
+print(parent_directory)
 
 forward_index = ForwardIndex()
 
@@ -18,4 +25,4 @@ reversed_index = ReversedIndex()
 # genIndex needs path to the forward index
 reversed_index.genIndex(file_path_output)
 reversed_index.serialize_index()
-reversed_index.serialize_lexicon()
+# reversed_index.serialize_lexicon()

@@ -38,7 +38,7 @@ class Barrel:
             os.makedirs(folder_path)
 
         for idx, barrel in enumerate(barrels):
-            output_file = f"barrel_{idx + 1}.json"
+            output_file = f"barrel_{idx}.json"
             with open(os.path.join(folder_path, output_file), 'w') as file:
                 json.dump(barrel, file, indent=2)
 

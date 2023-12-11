@@ -23,19 +23,23 @@ class ForwardIndex:
             list_of_documents = json.load(file)
             print(len(list_of_documents))
 
-        for doc in list_of_documents:
-            title = doc['title']
-            url = doc['url']
-            hash_object = hashlib.sha256(f"{title}\n{url}".encode())
-            hash_value = hash_object.hexdigest()
+            for doc in list_of_documents:
+                title = doc['title']
+                url = doc['url']
+                hash_object = hashlib.sha256(title.encode())
+                hash_value = hash_object.hexdigest()
 
-            word_list = doc["word_list"]
-            doc_length = len(word_list)
+                word_list = doc["word_list"]
+                doc_length = len(word_list)
 
-            self.index[hash_value] = {
-                'word_list': self.insert_word_list(word_list),
-                'doc_length': doc_length
-            }
+                # Construct a ListNode object for word_list
+                list_node = self.insert_word_list(word_list)
+
+                # Store it as value for hash_value key in index dictionary
+                self.index[hash_value] = {
+                    'word_list': list_node,
+                    'doc_length': doc_length
+                }
 
     def insert_word_list(self, word_list):
         if not word_list:
@@ -50,11 +54,19 @@ class ForwardIndex:
 
     def get_word_list(self, title):
         if title in self.index:
-            return self.get_linked_list_words(self.index[title])
+            return self.get_linked_list_words(title, self.index[title]['word_list'])
         else:
             return None
 
-    def get_linked_list_words(self, head):
+    def get_linked_list_words(self, title, word_list):
+        words = self.convert_linked_list_to_list(word_list)
+        if words:
+            print(f"Word list for document '{title}': {words}")
+            return words
+        else:
+            return None
+
+    def convert_linked_list_to_list(self, head):
         word_list = []
         current = head
         while current:

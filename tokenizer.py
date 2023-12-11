@@ -15,9 +15,14 @@ def process_json(json_data):
     # Decode escape sequences in the 'content' field
     content = codecs.decode(content, 'unicode_escape')
 
-    # Tokenize content into words using NLTK and remove punctuation
+    # Tokenize content into words using NLTK
     word_list = word_tokenize(content)
-    word_list = [word for word in word_list if word.isalnum()]  # Remove punctuation
+
+    # Calculate total words in content before removing stopwords
+    total_words_before_stopwords = len(word_list)
+
+    # Remove punctuation
+    word_list = [word for word in word_list if word.isalnum()]
 
     # Remove stopwords
     stop_words = set(stopwords.words('english'))
@@ -32,7 +37,8 @@ def process_json(json_data):
         'word_list': word_list,
         'url': json_data.get('url', ''),
         'author': json_data.get('author', ''),
-        'publication_date': json_data.get('published', '')
+        'publication_date': json_data.get('published', ''),
+        'total_words_before_stopwords': total_words_before_stopwords  # Include the total words count before removing stopwords
     }
 
     return new_json

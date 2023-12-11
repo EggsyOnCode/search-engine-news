@@ -19,30 +19,34 @@ class ForwardIndex:
         self.index = defaultdict(ListNode)
     
     def genIndex(self, file_path):
-        # Load data from the JSON file containing a list of documents
         with open(file_path, 'r', encoding='utf-8') as file:
             list_of_documents = json.load(file)
             print(len(list_of_documents))
 
-        # Build Forward Index for each document
         for doc in list_of_documents:
-            hash_value = doc['title']
-            hash_value+= "\n"
-            hash_value += doc['url']
+            title = doc['title']
+            url = doc['url']
+            hash_object = hashlib.sha256(f"{title}\n{url}".encode())
+            hash_value = hash_object.hexdigest()
+
             word_list = doc["word_list"]
-            self.insert_word_list(hash_value, word_list)
+            doc_length = len(word_list)
 
-    def insert_word_list(self, hash_value, word_list):
-        head = None
-        for word in word_list:
-            if head is None:
-                head = ListNode(word)
-                current = head
-            else:
-                current.next = ListNode(word)
-                current = current.next
+            self.index[hash_value] = {
+                'word_list': self.insert_word_list(word_list),
+                'doc_length': doc_length
+            }
 
-        self.index[hash_value] = head
+    def insert_word_list(self, word_list):
+        if not word_list:
+            return None
+
+        head = ListNode(word_list[0])
+        current = head
+        for word in word_list[1:]:
+            current.next = ListNode(word)
+            current = current.next
+        return head
 
     def get_word_list(self, title):
         if title in self.index:
@@ -74,14 +78,16 @@ class ForwardIndex:
 
     def serialize_index(self):
         serialized_index = {}
-        for key, head in self.index.items():
-            serialized_index[key] = self.serialize_linked_list(head)
+        for key, value in self.index.items():
+            serialized_index[key] = {
+                'word_list': self.serialize_linked_list(value['word_list']),
+                'doc_length': value['doc_length']
+            }
 
         folder_path = './indexing/forward_index'
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
 
-        serialized_json = json.dumps(serialized_index)
         with open(os.path.join(folder_path, 'new_index.json'), 'w') as json_file:
             json.dump(serialized_index, json_file, indent=2)
 
@@ -99,8 +105,7 @@ class ForwardIndex:
             memory_usage = sys.getsizeof(serialized_index)
             print(f"Memory usage of forward index: {memory_usage} bytes")
         
-        
-        self.index = defaultdict(ListNode, {key: self.deserialize_linked_list(value) for key, value in serialized_index.items()})
+        self.index = defaultdict(dict, {key: {'word_list': self.deserialize_linked_list(value['word_list']), 'doc_length': value['doc_length']} for key, value in serialized_index.items()})
 
     def deserialize_linked_list(self, serialized_list):
         if not serialized_list:

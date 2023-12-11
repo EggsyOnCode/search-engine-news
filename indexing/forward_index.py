@@ -1,6 +1,7 @@
 from collections import defaultdict
 import os
 import hashlib
+import sys
 import json
 
 
@@ -95,6 +96,9 @@ class ForwardIndex:
     def deserialize_index_from_json(self, file_path):
         with open(file_path, 'r') as file:
             serialized_index = json.load(file)
+            memory_usage = sys.getsizeof(serialized_index)
+            print(f"Memory usage of forward index: {memory_usage} bytes")
+        
         
         self.index = defaultdict(ListNode, {key: self.deserialize_linked_list(value) for key, value in serialized_index.items()})
 

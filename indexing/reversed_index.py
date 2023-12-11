@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 import hashlib
 from forward_index import ForwardIndex
 import re
@@ -109,6 +110,8 @@ class ReversedIndex:
     def deserialize_index_from_json(self, file_path):
         with open(file_path, 'r') as file:
             serialized_index = json.load(file)
+        memory_usage = sys.getsizeof(serialized_index)
+        print("mem usage: ", memory_usage)
         
         self.index = {key: self.deserialize_linked_list(value) for key, value in serialized_index.items()}
 

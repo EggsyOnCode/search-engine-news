@@ -19,17 +19,18 @@ class ForwardIndex:
     
     def genIndex(self, file_path):
         # Load data from the JSON file containing a list of documents
-        with open(file_path, 'r', encoding='utf-8') as file:
+        with open(file_path, 'r') as file:
             list_of_documents = json.load(file)
             print(len(list_of_documents))
 
         # Build Forward Index for each document
         for doc in list_of_documents:
-            hash_value = doc['title']
-            hash_value+= "\n"
-            hash_value += doc['url']
+            hash_value = self.hash_document(doc['title'])
             word_list = doc["word_list"]
             self.insert_word_list(hash_value, word_list)
+            
+    def hash_document(self, title):
+        return hashlib.md5(title.encode()).hexdigest()
 
     def insert_word_list(self, hash_value, word_list):
         head = None
@@ -44,8 +45,9 @@ class ForwardIndex:
         self.index[hash_value] = head
 
     def get_word_list(self, title):
-        if title in self.index:
-            return self.get_linked_list_words(self.index[title])
+        hash_value = self.hash_document(title)
+        if hash_value in self.index:
+            return self.get_linked_list_words(self.index[hash_value])
         else:
             return None
 
@@ -108,3 +110,8 @@ class ForwardIndex:
             current.next = ListNode(word)
             current = current.next
         return head
+
+
+
+
+

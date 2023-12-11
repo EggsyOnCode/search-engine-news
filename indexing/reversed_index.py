@@ -69,7 +69,7 @@ class ReversedIndex:
         for key, head in self.index.items():
             serialized_index[key] = self.serialize_linked_list(head)
 
-        folder_path = './reversed_index'
+        folder_path = './indexing/reversed_index'
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
 

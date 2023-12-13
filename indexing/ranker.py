@@ -16,10 +16,9 @@ class Ranker:
     def process_query(self, query):
         # Tokenize the query
         query_words = query.split()
-
+        print("query is: ", query_words)
         # Search words in lexicon to get word IDs
-        lexicon = Lexicon()
-        word_ids = [lexicon.getWordId(word) for word in query_words if word in self.word_list]
+        word_ids = [self.reversed_index.lexicon.getWordId(word) for word in query_words if word in self.word_list]
 
         # Retrieve relevant documents from reversed index
         docs_collection = set()
@@ -41,13 +40,12 @@ class Ranker:
 
     def get_docs_from_reversed_index(self, term):
         docs = set()
-        if term in self.reversed_index.index:
-            term_data = self.reversed_index.index[term]
-            if term_data:
-                current = term_data
-                while current:
-                    docs.add(current.doc_ID)
-                    current = current.next
+        term_data = self.reversed_index.index[term]
+        if term_data:
+            current = term_data
+            while current:
+                docs.add(current.doc_ID)
+                current = current.next
         return docs
 
     def get_word_list_for_docs(self, doc_list):
@@ -60,7 +58,7 @@ class Ranker:
         return term_freq / total_words if total_words > 0 else 0
 
     def calculate_idf(self, docs_with_term):
-        return math.log(self.total_docs / (1 + docs_with_term))
+        return math.log(self.total_docs / (docs_with_term))
 
     def calculate_tf_idf(self):
         collection_set = set()
@@ -70,31 +68,39 @@ class Ranker:
         self.get_word_list_for_docs(collection_set)
 
         # here term is they wordID 
-        # term_data is the list of doc and 
+        # term_data is head of the list of docs 
         for term, head in self.reversed_index.index.items():
-            # Count the number of occurrences manually
             docs_with_term = self.reversed_index.get_num_docs_for_word(term)
             idf = self.calculate_idf(docs_with_term)
-            tf = self.calculate_tf(head.frequency, head.doc_length)
-            tf_idf = tf * idf
-            if head.doc_ID not in self.tf_idf_matrix:
-                self.tf_idf_matrix[head.doc_ID] = {}
-            self.tf_idf_matrix[head.doc_ID][term] = tf_idf
+            current = head
+            while current:
+                doc_ID = current.doc_ID
+                tf = self.calculate_tf(current.frequency, current.doc_length)
+                tf_idf = tf * idf
+
+                if doc_ID not in self.tf_idf_matrix:
+                    self.tf_idf_matrix[doc_ID] = {}
+
+                self.tf_idf_matrix[doc_ID][term] = tf_idf
+                current = current.next
     
     def vectorize_query(self, query):
-        lexicon = Lexicon()
         query_vector = {}
         query_words = query.split()
         total_query_words = len(query_words)
         for word in query_words:
             if word in self.word_list:
-                term = lexicon.getWordId(word)
-                docs_with_term = self.reversed_index.get_num_docs_for_word(term);
-                # docs_with_term = len(self.reversed_index.index.get(term, []))
+                term = self.reversed_index.lexicon.getWordId(word)
+                docs_with_term = self.reversed_index.get_num_docs_for_word(term)
+                print("word", term, "docs: ", docs_with_term)
                 idf = self.calculate_idf(docs_with_term)
+                print("idf: ", idf)
                 term_freq = query_words.count(word)
                 tf = term_freq / total_query_words
-                query_vector[word] = tf * idf
+                print("tf: ", tf)
+                print("tf-idf", tf*idf)
+                query_vector[term] = tf * idf
+        print("query vector: ", query_vector)
         return query_vector
 
     def calculate_cosine_similarity(self, vector1, vector2):

@@ -34,11 +34,10 @@ reverse.serialize_lexicon(l_index)
 
 meta.deserialize_metadata(meta_p)
 
-mock_query = "healthy intelligence"
+mock_query = "search intelligence"
 
 ranker = Ranker(reverse, forward, meta, 10)
-sample_query = "coastal cities"
-ranked_documents = ranker.process_query(sample_query)
+ranked_documents = ranker.process_query(mock_query)
 
 # Display ranked documents
 print("Ranked Documents:")

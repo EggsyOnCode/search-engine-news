@@ -87,9 +87,9 @@ class ReversedIndex:
     #     for key, head in self.index.items():
     #         print(head.doc_ID)
     def get_num_docs_for_word(self, wordID):
-        word = str(wordID)
-        if word in self.index:
-            return self.count_nodes(self.index[word])
+        # word = str(wordID)
+        if wordID in self.index:
+            return int(self.count_nodes(self.index[wordID]))
         else:
             return 0
     

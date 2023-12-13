@@ -4,6 +4,8 @@ from utils.MetaDataStore import MetaDataStore
 from utils.Tokenizer import Tokenizer
 from ranker import Ranker
 
+### mock test for testing the ranking algo
+
 tokenized_path = "./indexing/mocks/output.json"
 f_index = "./indexing/mocks/f/"
 f_input = "./indexing/mocks/f/new_index.json"

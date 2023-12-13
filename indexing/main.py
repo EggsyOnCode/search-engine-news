@@ -1,5 +1,5 @@
 from forward_index import ForwardIndex
-from reversed_index import ReversedIndex
+from indexing.reversed_index import ReversedIndex
 import json
 import os
 from utils.calcHash import calculate_hash

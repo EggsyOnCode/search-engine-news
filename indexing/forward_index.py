@@ -17,11 +17,13 @@ class ListNode:
 class ForwardIndex:
     def __init__(self):
         self.index = defaultdict(ListNode)
+        self.repo_length = 0
     
     def genIndex(self, file_path):
         with open(file_path, 'r', encoding='utf-8') as file:
             list_of_documents = json.load(file)
-            print(len(list_of_documents))
+            self.repo_length = (len(list_of_documents))
+            self.save_total_docs()
 
             for doc in list_of_documents:
                 title = doc['title']
@@ -129,3 +131,9 @@ class ForwardIndex:
             current.next = ListNode(word)
             current = current.next
         return head
+    def save_total_docs(self):
+        constants_file_path = 'data/constants.json'  # Set the path for constants.json
+        data = {'total_docs': self.repo_length}
+
+        with open(constants_file_path, 'w', encoding='utf-8') as constants_file:
+            json.dump(data, constants_file, ensure_ascii=False, indent=2)

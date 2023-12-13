@@ -1,0 +1,145 @@
+[
+  {
+    "field": "doc1",
+    "date": "2022-01-01",
+    "source": "source1",
+    "title": "Title of Document 1",
+    "word_list": [
+      "search",
+      "history",
+      "bad"
+    ],
+    "url": "",
+    "author": "",
+    "publication_date": "",
+    "total_words_before_stopwords": 5
+  },
+  {
+    "field": "doc2",
+    "date": "2022-01-02",
+    "source": "source2",
+    "title": "Title of Document 2",
+    "word_list": [
+      "trump",
+      "election",
+      "history",
+      "written",
+      "search"
+    ],
+    "url": "",
+    "author": "",
+    "publication_date": "",
+    "total_words_before_stopwords": 12
+  },
+  {
+    "field": "doc3",
+    "date": "2022-01-03",
+    "source": "source3",
+    "title": "Title of Document 3",
+    "word_list": [
+      "impact",
+      "climate",
+      "change",
+      "coastal",
+      "cities"
+    ],
+    "url": "",
+    "author": "",
+    "publication_date": "",
+    "total_words_before_stopwords": 8
+  },
+  {
+    "field": "doc4",
+    "date": "2022-01-04",
+    "source": "source4",
+    "title": "Title of Document 4",
+    "word_list": [
+      "Advancements",
+      "artificial",
+      "intelligence"
+    ],
+    "url": "",
+    "author": "",
+    "publication_date": "",
+    "total_words_before_stopwords": 4
+  },
+  {
+    "field": "doc5",
+    "date": "2022-01-05",
+    "source": "source5",
+    "title": "Title of Document 5",
+    "word_list": [
+      "Healthy",
+      "eating",
+      "habits",
+      "better",
+      "lifestyle"
+    ],
+    "url": "",
+    "author": "",
+    "publication_date": "",
+    "total_words_before_stopwords": 7
+  },
+  {
+    "field": "doc6",
+    "date": "2022-01-06",
+    "source": "source6",
+    "title": "Title of Document 6",
+    "word_list": [
+      "Exploring",
+      "renewable",
+      "energy",
+      "sources"
+    ],
+    "url": "",
+    "author": "",
+    "publication_date": "",
+    "total_words_before_stopwords": 4
+  },
+  {
+    "field": "doc7",
+    "date": "2022-01-07",
+    "source": "source7",
+    "title": "Title of Document 7",
+    "word_list": [
+      "future",
+      "space",
+      "exploration"
+    ],
+    "url": "",
+    "author": "",
+    "publication_date": "",
+    "total_words_before_stopwords": 5
+  },
+  {
+    "field": "doc8",
+    "date": "2022-01-08",
+    "source": "source8",
+    "title": "Title of Document 8",
+    "word_list": [
+      "Blockchain",
+      "technology",
+      "applications"
+    ],
+    "url": "",
+    "author": "",
+    "publication_date": "",
+    "total_words_before_stopwords": 5
+  },
+  {
+    "field": "doc9",
+    "date": "2022-01-09",
+    "source": "source9",
+    "title": "Title of Document 9",
+    "word_list": [
+      "Mental",
+      "health",
+      "awareness",
+      "support"
+    ],
+    "url": "",
+    "author": "",
+    "publication_date": "",
+    "total_words_before_stopwords": 5
+  }
+]

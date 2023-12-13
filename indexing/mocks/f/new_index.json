@@ -1,0 +1,82 @@
+{
+  "f351ced191655a677fac518a63d1577d962ae89a11ed74b36ab7c733ccef3c41": {
+    "word_list": [
+      "search",
+      "history",
+      "bad"
+    ],
+    "doc_length": 3
+  },
+  "3bf9c7f453407cc80978683e481dca8fb8acdf064fc5fedf7f52be3db0f792d3": {
+    "word_list": [
+      "trump",
+      "election",
+      "history",
+      "written",
+      "search"
+    ],
+    "doc_length": 5
+  },
+  "a70d423bc35c41eb8a9b34afa48096df7eed7ed88bb13bcee8475c981f2834be": {
+    "word_list": [
+      "impact",
+      "climate",
+      "change",
+      "coastal",
+      "cities"
+    ],
+    "doc_length": 5
+  },
+  "aa298ddbfa3c344e470020e33b98398df35b0ccef9e701c8b3f556105ff6ca5a": {
+    "word_list": [
+      "Advancements",
+      "artificial",
+      "intelligence"
+    ],
+    "doc_length": 3
+  },
+  "93280d576bec0bdcbfcde7d13a072df2cd567d88051d1aa6f3f44e1b58120033": {
+    "word_list": [
+      "Healthy",
+      "eating",
+      "habits",
+      "better",
+      "lifestyle"
+    ],
+    "doc_length": 5
+  },
+  "0f879b0050c1ec33643277c2754b8f845eb9d1ab3ddba324cfa54bd6637f356b": {
+    "word_list": [
+      "Exploring",
+      "renewable",
+      "energy",
+      "sources"
+    ],
+    "doc_length": 4
+  },
+  "9b8a2ead7772bee1b340934f9219ed57a2b4d1a0b0847de2d060489ce687e9aa": {
+    "word_list": [
+      "future",
+      "space",
+      "exploration"
+    ],
+    "doc_length": 3
+  },
+  "e319feaf88889437d225fe9a03f2a76d50253533907e4a347e7b4e99afb9ea8e": {
+    "word_list": [
+      "Blockchain",
+      "technology",
+      "applications"
+    ],
+    "doc_length": 3
+  },
+  "f1db7b0d276fda0cc8271d34dac8ca0ee5cd717815032e820f02c30710858c4d": {
+    "word_list": [
+      "Mental",
+      "health",
+      "awareness",
+      "support"
+    ],
+    "doc_length": 4
+  }
+}

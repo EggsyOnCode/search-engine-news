@@ -10,10 +10,12 @@ import nltk
 nltk.download('stopwords')
 
 class Tokenizer:
-    def __init__(self):
+    def __init__(self, metadata_store):
+        self.metadata_store = metadata_store
         self.metadata = []
 
     def process_json(self, json_data):
+        # Tokenize content
         content = json_data.get('content', '')
         content = codecs.decode(content, 'unicode_escape')
         word_list = word_tokenize(content)
@@ -22,7 +24,8 @@ class Tokenizer:
         stop_words = set(stopwords.words('english'))
         word_list = [word for word in word_list if word.lower() not in stop_words]
 
-        new_json = {
+        # Create metadata
+        metadata = {
             'field': json_data.get('id', ''),
             'date': json_data.get('date', ''),
             'source': json_data.get('source', ''),
@@ -33,16 +36,26 @@ class Tokenizer:
             'publication_date': json_data.get('published', ''),
             'total_words_before_stopwords': total_words_before_stopwords
         }
-        
+
+        # Store metadata using MetaDataStore class
+        doc_hash = self.get_document_hash(json_data.get('title', ''))
+        self.metadata_store.store_metadata(
+            title=json_data.get('title', ''),
+            source=json_data.get('source', ''),
+            date=json_data.get('date', ''),
+            url=json_data.get('url', ''),
+            doc_hash=doc_hash
+        )
+
         self.metadata.append({
-            'doc_hash': self.get_document_hash(json_data.get('title', '')),
+            'doc_hash': doc_hash,
             'title': json_data.get('title', ''),
             'source': json_data.get('source', ''),
             'date': json_data.get('date', ''),
             'url': json_data.get('url', '')
         })
 
-        return new_json
+        return metadata
 
     def process_json_file(self, input_file, output_file):
         with open(input_file, 'r', encoding='utf-8') as file:
@@ -58,7 +71,7 @@ class Tokenizer:
             json.dump(new_data, new_file, ensure_ascii=False, indent=2)
 
     def get_document_hash(self, title):
-        return hashlib.md5(title.encode()).hexdigest()
+        return hashlib.sha256(title.encode()).hexdigest()
 
     def serialize_metadata(self, output_file):
         with open(output_file, 'w') as meta_file:

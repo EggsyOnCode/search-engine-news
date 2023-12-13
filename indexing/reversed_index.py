@@ -83,14 +83,30 @@ class ReversedIndex:
             })
             head = head.next
         return docList
+    # def test_func(self):
+    #     for key, head in self.index.items():
+    #         print(head.doc_ID)
+    def get_num_docs_for_word(self, wordID):
+        word = str(wordID)
+        if word in self.index:
+            return self.count_nodes(self.index[word])
+        else:
+            return 0
+    
+    def count_nodes(self, head):
+        count = 0
+        current = head
+        while current:
+            count += 1
+            current = current.next
+        return count
 
 #store reversed index in json
-    def serialize_index(self):
+    def serialize_index(self, folder_path="./data/reversed_index"):
         serialized_index = {}
         for key, head in self.index.items():
             serialized_index[key] = self.serialize_linked_list(head)
 
-        folder_path = './data/reversed_index'
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
 
@@ -112,8 +128,7 @@ class ReversedIndex:
         return serialized_list
     
 #store lexicon in json
-    def serialize_lexicon(self):
-        folder_path = './lexicon'
+    def serialize_lexicon(self, folder_path="./lexicon"):
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
 

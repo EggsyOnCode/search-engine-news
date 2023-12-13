@@ -1,0 +1,65 @@
+[
+  {
+    "doc_hash": "f351ced191655a677fac518a63d1577d962ae89a11ed74b36ab7c733ccef3c41",
+    "title": "Title of Document 1",
+    "source": "source1",
+    "date": "2022-01-01",
+    "url": ""
+  },
+  {
+    "doc_hash": "3bf9c7f453407cc80978683e481dca8fb8acdf064fc5fedf7f52be3db0f792d3",
+    "title": "Title of Document 2",
+    "source": "source2",
+    "date": "2022-01-02",
+    "url": ""
+  },
+  {
+    "doc_hash": "a70d423bc35c41eb8a9b34afa48096df7eed7ed88bb13bcee8475c981f2834be",
+    "title": "Title of Document 3",
+    "source": "source3",
+    "date": "2022-01-03",
+    "url": ""
+  },
+  {
+    "doc_hash": "aa298ddbfa3c344e470020e33b98398df35b0ccef9e701c8b3f556105ff6ca5a",
+    "title": "Title of Document 4",
+    "source": "source4",
+    "date": "2022-01-04",
+    "url": ""
+  },
+  {
+    "doc_hash": "93280d576bec0bdcbfcde7d13a072df2cd567d88051d1aa6f3f44e1b58120033",
+    "title": "Title of Document 5",
+    "source": "source5",
+    "date": "2022-01-05",
+    "url": ""
+  },
+  {
+    "doc_hash": "0f879b0050c1ec33643277c2754b8f845eb9d1ab3ddba324cfa54bd6637f356b",
+    "title": "Title of Document 6",
+    "source": "source6",
+    "date": "2022-01-06",
+    "url": ""
+  },
+  {
+    "doc_hash": "9b8a2ead7772bee1b340934f9219ed57a2b4d1a0b0847de2d060489ce687e9aa",
+    "title": "Title of Document 7",
+    "source": "source7",
+    "date": "2022-01-07",
+    "url": ""
+  },
+  {
+    "doc_hash": "e319feaf88889437d225fe9a03f2a76d50253533907e4a347e7b4e99afb9ea8e",
+    "title": "Title of Document 8",
+    "source": "source8",
+    "date": "2022-01-08",
+    "url": ""
+  },
+  {
+    "doc_hash": "f1db7b0d276fda0cc8271d34dac8ca0ee5cd717815032e820f02c30710858c4d",
+    "title": "Title of Document 9",
+    "source": "source9",
+    "date": "2022-01-09",
+    "url": ""
+  }
+]

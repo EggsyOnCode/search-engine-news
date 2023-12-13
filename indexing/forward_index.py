@@ -63,7 +63,7 @@ class ForwardIndex:
     def get_linked_list_words(self, title, word_list):
         words = self.convert_linked_list_to_list(word_list)
         if words:
-            print(f"Word list for document '{title}': {words}")
+            # print(f"Word list for document '{title}': {words}")
             return words
         else:
             return None
@@ -90,7 +90,7 @@ class ForwardIndex:
         else:
             return False
 
-    def serialize_index(self):
+    def serialize_index(self, folder_path="./data/forward_index"):
         serialized_index = {}
         for key, value in self.index.items():
             serialized_index[key] = {
@@ -98,7 +98,6 @@ class ForwardIndex:
                 'doc_length': value['doc_length']
             }
 
-        folder_path = './data/forward_index'
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
 

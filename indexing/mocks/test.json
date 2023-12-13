@@ -1,0 +1,65 @@
+[
+  {
+    "id": "doc1",
+    "date": "2022-01-01",
+    "source": "source1",
+    "title": "Title of Document 1",
+    "content": "my search history is bad"
+  },
+  {
+    "id": "doc2",
+    "date": "2022-01-02",
+    "source": "source2",
+    "title": "Title of Document 2",
+    "content": "trump has won the election. history is written by search."
+  },
+  {
+    "id": "doc3",
+    "date": "2022-01-03",
+    "source": "source3",
+    "title": "Title of Document 3",
+    "content": "The impact of climate change on coastal cities"
+  },
+  {
+    "id": "doc4",
+    "date": "2022-01-04",
+    "source": "source4",
+    "title": "Title of Document 4",
+    "content": "Advancements in artificial intelligence"
+  },
+  {
+    "id": "doc5",
+    "date": "2022-01-05",
+    "source": "source5",
+    "title": "Title of Document 5",
+    "content": "Healthy eating habits for a better lifestyle"
+  },
+  {
+    "id": "doc6",
+    "date": "2022-01-06",
+    "source": "source6",
+    "title": "Title of Document 6",
+    "content": "Exploring renewable energy sources"
+  },
+  {
+    "id": "doc7",
+    "date": "2022-01-07",
+    "source": "source7",
+    "title": "Title of Document 7",
+    "content": "The future of space exploration"
+  },
+  {
+    "id": "doc8",
+    "date": "2022-01-08",
+    "source": "source8",
+    "title": "Title of Document 8",
+    "content": "Blockchain technology and its applications"
+  },
+  {
+    "id": "doc9",
+    "date": "2022-01-09",
+    "source": "source9",
+    "title": "Title of Document 9",
+    "content": "Mental health awareness and support"
+  }
+]

@@ -16,7 +16,7 @@ forward_index = ForwardIndex()
 # file path var
 # update as per requirement
 file_path_input = parent_directory + '/test_data/output1.json'
-file_path_output = parent_directory + '/indexing/forward_index/new_index.json'
+file_path_output = parent_directory + '/data/forward_index/new_index.json'
 
 # forward_index.genIndex(file_path_input)
 # forward_index.serialize_index();

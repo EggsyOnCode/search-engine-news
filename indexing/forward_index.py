@@ -96,7 +96,7 @@ class ForwardIndex:
                 'doc_length': value['doc_length']
             }
 
-        folder_path = './indexing/forward_index'
+        folder_path = './data/forward_index'
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
 

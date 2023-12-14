@@ -49,9 +49,9 @@ export default function SearchWindow() {
         </div>
       </div>
       <div className="overflow-y-auto mt-[calc(50vh + 4rem)] w-full">
-        <div className="flex justify-start items-center">
-          <h1 className="font-bold text-black">
-            `${results.length} results in ${duration} duration`
+        <div className="flex justify-start items-center bg-slate-400 px-8">
+          <h1 className="font-bold text-black text-xl">
+            {results.length} results in {duration} sec duration
           </h1>
         </div>
         <div className="bg-slate-400 py-8 px-4">

@@ -1,9 +1,12 @@
 from flask import Flask, request
+from flask_cors import CORS, cross_origin
+
 from bootstrap import Bootstrap
 
 # ip: localhost:3000
 
 app = Flask(__name__)
+CORS(app)
 bootstrap = Bootstrap()
 
 # Mocked functions for search and adding documents
@@ -15,10 +18,9 @@ def add_document(json_file):
     # Placeholder for adding a documentL
     return f"Document added: {json_file}"
 
-# Endpoint for searching
 @app.route('/search', methods=['GET'])
 def search():
-    query = request.json.get('query')
+    query = request.args.get('query')
     result = search_query(query)
     return result
 

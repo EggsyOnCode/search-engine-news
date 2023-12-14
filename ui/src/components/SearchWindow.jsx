@@ -5,7 +5,7 @@ import { SearchResult } from "./SearchResult";
 
 export default function SearchWindow() {
   const [query, setQuery] = useState("");
-  const [duration, setDuration] = useState("");
+  const [duration, setDuration] = useState(0.0);
   const [results, setResults] = useState([]);
 
   const handleSearch = () => {
@@ -48,10 +48,10 @@ export default function SearchWindow() {
           </button>
         </div>
       </div>
-      <div className="overflow-y-auto mt-[calc(50vh + 4rem)] w-full">
-        <div className="flex justify-start items-center bg-slate-400 px-8">
+      <div className="flex-1 overflow-y-auto mt-[calc(50vh + 4rem)] w-full">
+        <div className="flex justify-start items-center bg-slate-400 px-8"> 
           <h1 className="font-bold text-black text-xl">
-            {results.length} results in {duration} sec duration
+            {results.length} results in {duration.toFixed(2)} sec duration
           </h1>
         </div>
         <div className="bg-slate-400 py-8 px-4">

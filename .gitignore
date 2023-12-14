@@ -2,3 +2,5 @@ nela-gt-2022/
 test_data/
 indexing/__pycache__/*/*
 data/
+ui/node_modules
+ui/public

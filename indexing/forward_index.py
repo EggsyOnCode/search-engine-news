@@ -19,7 +19,7 @@ class ForwardIndex:
         self.index = defaultdict(ListNode)
         self.repo_length = 0
     
-    def genIndex(self, file_path):
+    def genIndex(self, file_path="./test_data/output1.json"):
         with open(file_path, 'r', encoding='utf-8') as file:
             list_of_documents = json.load(file)
             self.repo_length = (len(list_of_documents))

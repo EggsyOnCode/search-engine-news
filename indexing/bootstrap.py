@@ -20,24 +20,39 @@ from utils.MetaDataStore import MetaDataStore
 from utils.Tokenizer import Tokenizer
 from ranker import Ranker
 
-forward_index = ForwardIndex()
-forward_index.deserialize_index_from_json(file_path_input)
-
-reversed_index = ReversedIndex()
-reversed_index.deserialize_index_from_json(file_path_input2)
-reversed_index.deserialize_lexicon()
-
 meta_data_store = MetaDataStore()
 meta_data_store.deserialize_metadata(file_path_input3)
 
 
 total_docs = 9977
 
+# booleans/choices
+tokenize = False
+if(tokenize):
+    tokenizer = Tokenizer()
+    tokenizer = Tokenizer(meta_data_store)
+    tokenizer.process_json_file('./test_data/abcnews.json', './test_data/output1.json')
+    tokenizer.serialize_metadata('./data/meta_data_store/metaDataStore.json')
+        
+
+forward_index = ForwardIndex()
+# forward_index.genIndex()
+# forward_index.serialize_index()
+forward_index.deserialize_index_from_json(file_path_input)
+
+reversed_index = ReversedIndex()
+# reversed_index.genIndex(forward_index)
+# reversed_index.serialize_index()
+# reversed_index.serialize_lexicon()
+reversed_index.deserialize_index_from_json(file_path_input2)
+reversed_index.deserialize_lexicon()
+
 ranker = Ranker(reversed_index, forward_index, meta_data_store, total_docs)
 
 sample_query = "Arizona Colorado fire"
+
 start_time = time.time()
-ranked_documents = ranker.process_query(sample_query)
+ranked_documents = ranker.process_query(sample_query.lower())
 end_time = time.time()
 
 execution_time = end_time - start_time

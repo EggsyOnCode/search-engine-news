@@ -20,9 +20,12 @@ class Tokenizer:
         content = codecs.decode(content, 'unicode_escape')
         word_list = word_tokenize(content)
         total_words_before_stopwords = len(word_list)
-        word_list = [word for word in word_list if word.isalnum()]
+        
+        # Convert words to lowercase
+        word_list = [word.lower() for word in word_list if word.isalnum()]
+        
         stop_words = set(stopwords.words('english'))
-        word_list = [word for word in word_list if word.lower() not in stop_words]
+        word_list = [word for word in word_list if word not in stop_words]
 
         # Create metadata
         metadata = {

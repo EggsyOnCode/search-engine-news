@@ -76,6 +76,8 @@ class Tokenizer:
     def get_document_hash(self, title):
         return hashlib.sha256(title.encode()).hexdigest()
 
-    def serialize_metadata(self, output_file):
+    def serialize_metadata(self, output_file="./data/meta_data_store/metaDataStore.json"):
         with open(output_file, 'w') as meta_file:
-            json.dump(self.metadata, meta_file, indent=2)
+            json.dump(self.metadata_store.metadata_index, meta_file, ensure_ascii=False, indent=2)
+
+

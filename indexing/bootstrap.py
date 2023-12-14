@@ -61,4 +61,5 @@ print(f"Execution time: {execution_time} seconds")
 # Display ranked documents
 print("Ranked Documents:")
 for index, similarity in ranked_documents:
-    print(f"Document Index: {index}, Similarity: {similarity}")
+    title = meta_data_store.metadata_index[str(index)]["title"]
+    print(f"Document Index: {title}, Similarity: {similarity}")

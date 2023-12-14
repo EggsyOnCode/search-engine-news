@@ -16,9 +16,13 @@ file_path_input3 = parent_directory + '/data/meta_data_store/metaDataStore.json'
 
 from forward_index import ForwardIndex
 from reversed_index import ReversedIndex
+from ranker import Ranker
+
+import sys 
+sys.path.append("/home/xen/Desktop/code/search-engine-news")
+
 from utils.MetaDataStore import MetaDataStore
 from utils.Tokenizer import Tokenizer
-from ranker import Ranker
 
 meta_data_store = MetaDataStore()
 meta_data_store.deserialize_metadata(file_path_input3)

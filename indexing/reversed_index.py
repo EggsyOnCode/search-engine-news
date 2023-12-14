@@ -1,7 +1,8 @@
 import json
 import os
-import sys
 from forward_index import ForwardIndex
+import sys 
+sys.path.append("/home/xen/Desktop/code/search-engine-news")
 from utils.calcHash import calculate_hash
 
 #Linked List Node stroing docId and frequency of the word in doc
@@ -19,7 +20,7 @@ class Lexicon:
         self.dicWord = {}
         self.count=0
 
-#call to get wordId of a particular word
+    #call to get wordId of a particular word
     def getWordId(self,word):
         if word in self.dicWord:
             return self.dicWord[word]
@@ -40,7 +41,7 @@ class ReversedIndex:
         self.index = {}
         self.lexicon = Lexicon()
 
-#called to make new reversed index from pre generated forward index pass file path of forward index
+    #called to make new reversed index from pre generated forward index pass file path of forward index
     def genIndex(self,forward_index):
         for doc_id, head in forward_index.index.items():
             self.traverseWordList(head['word_list'],head['doc_length'],doc_id)
@@ -101,7 +102,7 @@ class ReversedIndex:
             current = current.next
         return count
 
-#store reversed index in json
+    #store reversed index in json
     def serialize_index(self, folder_path="./data/reversed_index"):
         serialized_index = {}
         for key, head in self.index.items():
@@ -127,7 +128,7 @@ class ReversedIndex:
             current = current.next
         return serialized_list
     
-#store lexicon in json
+    #store lexicon in json
     def serialize_lexicon(self, folder_path="./data/lexicon/"):
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
@@ -136,7 +137,7 @@ class ReversedIndex:
         with open(os.path.join(folder_path, 'lexicon.json'), 'w') as json_file:
             json.dump(self.lexicon.dicWordId, json_file, indent=2)
 
-#extract reversed index from json
+    #extract reversed index from json
     def deserialize_index_from_json(self, file_path):
         with open(file_path, 'r') as file:
             serialized_index = json.load(file)

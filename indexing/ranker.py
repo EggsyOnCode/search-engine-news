@@ -2,6 +2,8 @@ import hashlib
 import math
 from forward_index import ForwardIndex
 from reversed_index import ReversedIndex, Lexicon
+import sys
+sys.path.append("/home/xen/Desktop/code/search-engine-news")
 from utils.MetaDataStore import MetaDataStore 
 import numpy as np
 

@@ -1,4 +1,5 @@
 import os
+import time
 # Get the current file path
 current_file_path = os.path.realpath(__file__)
 
@@ -35,7 +36,12 @@ total_docs = 9977
 ranker = Ranker(reversed_index, forward_index, meta_data_store, total_docs)
 
 sample_query = "Arizona Colorado fire"
+start_time = time.time()
 ranked_documents = ranker.process_query(sample_query)
+end_time = time.time()
+
+execution_time = end_time - start_time
+print(f"Execution time: {execution_time} seconds")
 
 # Display ranked documents
 print("Ranked Documents:")

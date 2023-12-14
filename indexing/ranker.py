@@ -3,6 +3,7 @@ import math
 from forward_index import ForwardIndex
 from reversed_index import ReversedIndex, Lexicon
 from utils.MetaDataStore import MetaDataStore 
+import numpy as np
 
 class Ranker:
     def __init__(self, reversed_index, forward_index, meta_data_store, total_docs):
@@ -58,6 +59,9 @@ class Ranker:
         return term_freq / total_words if total_words > 0 else 0
 
     def calculate_idf(self, docs_with_term):
+        # for div by zero error
+        if(docs_with_term==0):
+            return 0
         return math.log(self.total_docs / (docs_with_term))
 
     def calculate_tf_idf(self):
@@ -92,21 +96,20 @@ class Ranker:
             if word in self.word_list:
                 term = self.reversed_index.lexicon.getWordId(word)
                 docs_with_term = self.reversed_index.get_num_docs_for_word(term)
-                print("word", term, "docs: ", docs_with_term)
                 idf = self.calculate_idf(docs_with_term)
-                print("idf: ", idf)
                 term_freq = query_words.count(word)
                 tf = term_freq / total_query_words
-                print("tf: ", tf)
-                print("tf-idf", tf*idf)
                 query_vector[term] = tf * idf
-        print("query vector: ", query_vector)
         return query_vector
 
     def calculate_cosine_similarity(self, vector1, vector2):
-        dot_product = sum(v1 * v2 for v1, v2 in zip(vector1.values(), vector2.values()))
-        magnitude1 = math.sqrt(sum(v1 ** 2 for v1 in vector1.values()))
-        magnitude2 = math.sqrt(sum(v2 ** 2 for v2 in vector2.values()))
+        dot_product = 0.0
+        for key in vector1:
+            if key in vector2:
+                dot_product += vector1[key] * vector2[key]
+
+        magnitude1 = math.sqrt(sum(v ** 2 for v in vector1.values()))
+        magnitude2 = math.sqrt(sum(v ** 2 for v in vector2.values()))
 
         if magnitude1 == 0 or magnitude2 == 0:
             return 0
@@ -115,16 +118,7 @@ class Ranker:
 
     def get_ranked_documents(self, query_vector):
         similarities = []
-        for doc_hash, doc_vector in self.tf_idf_matrix.items():
-            
-            
-            
-            # printing for test
-            print(doc_hash , doc_vector)
-            # test ended
-            
-            
-            
+        for doc_hash, doc_vector in self.tf_idf_matrix.items():      
             similarity = self.calculate_cosine_similarity(query_vector, doc_vector)
             similarities.append((doc_hash, similarity))
 
@@ -141,41 +135,41 @@ class Ranker:
     
 
     
-# import os
+import os
 
 
-# # Get the current file path
-# current_file_path = os.path.realpath(__file__)
+# Get the current file path
+current_file_path = os.path.realpath(__file__)
 
-# # Get the parent directory
-# parent_directory = os.path.dirname(os.path.dirname(current_file_path))
-# print(parent_directory)
-
-
-# # file path var
-# # update as per requirement
-# file_path_input = parent_directory + '/data/forward_index/new_index.json'
-# file_path_input2 = parent_directory + '/data/reversed_index/reversed_index.json'
-# file_path_input3 = parent_directory + '/data/meta_data_store/metaDataStore.json'
-
-# reversed_index = ReversedIndex()
-# reversed_index.deserialize_index_from_json(file_path_input2)
+# Get the parent directory
+parent_directory = os.path.dirname(os.path.dirname(current_file_path))
+print(parent_directory)
 
 
-# meta_data_store = MetaDataStore()
-# meta_data_store.deserialize_metadata(file_path_input3)
+# file path var
+# update as per requirement
+file_path_input = parent_directory + '/data/forward_index/new_index.json'
+file_path_input2 = parent_directory + '/data/reversed_index/reversed_index.json'
+file_path_input3 = parent_directory + '/data/meta_data_store/metaDataStore.json'
 
-# forward_index = ForwardIndex()
-# forward_index.deserialize_index_from_json(file_path_input)
+reversed_index = ReversedIndex()
+reversed_index.deserialize_index_from_json(file_path_input2)
 
-# total_docs = 9977
 
-# ranker = Ranker(reversed_index, forward_index, meta_data_store, total_docs)
+meta_data_store = MetaDataStore()
+meta_data_store.deserialize_metadata(file_path_input3)
 
-# sample_query = "Arizona"
-# ranked_documents = ranker.process_query(sample_query)
+forward_index = ForwardIndex()
+forward_index.deserialize_index_from_json(file_path_input)
 
-# # Display ranked documents
-# print("Ranked Documents:")
-# for index, similarity in ranked_documents:
-#     print(f"Document Index: {index}, Similarity: {similarity}")
+total_docs = 9977
+
+ranker = Ranker(reversed_index, forward_index, meta_data_store, total_docs)
+
+sample_query = "arizona colorado fire"
+ranked_documents = ranker.process_query(sample_query)
+
+# Display ranked documents
+print("Ranked Documents:")
+for index, similarity in ranked_documents:
+    print(f"Document Index: {index}, Similarity: {similarity}")

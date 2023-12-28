@@ -3,7 +3,7 @@ import math
 from forward_index import ForwardIndex
 from reversed_index import ReversedIndex, Lexicon
 import sys
-sys.path.append("/home/xen/Desktop/code/search-engine-news")
+sys.path.append(r"/Users/Haroo/Downloads/search-engine-news-main (1)/search-engine-news-main")
 from utils.MetaDataStore import MetaDataStore 
 import numpy as np
 
@@ -14,24 +14,15 @@ class Ranker:
         self.total_docs = total_docs
         self.tf_idf_matrix = {}
         self.forward_index = forward_index
-        self.word_list = set()
+        self.word_list = reversed_index.lexicon.dicWord
+        self.calculate_tf_idf()
         
     def process_query(self, query):
         # Tokenize the query
         query_words = query.split()
         print("query is: ", query_words)
         # Search words in lexicon to get word IDs
-        word_ids = [self.reversed_index.lexicon.getWordId(word) for word in query_words if word in self.word_list]
-
-        # Retrieve relevant documents from reversed index
-        docs_collection = set()
-        for word_id in word_ids:
-            docs_with_term = self.get_docs_from_reversed_index(word_id)
-            docs_collection.update(docs_with_term)
-
-        # Create TF-IDF matrix for the document collection
-        self.get_word_list_for_docs(docs_collection)
-        self.calculate_tf_idf()
+        word_ids = [self.reversed_index.lexicon.getWordId(word) for word in query_words if word in self.reversed_index.lexicon.dicWord]
 
         # Vectorize the query and calculate TF-IDF for query terms
         query_vector = self.vectorize_query(query)
@@ -42,14 +33,7 @@ class Ranker:
         return ranked_documents
 
     def get_docs_from_reversed_index(self, term):
-        docs = set()
-        term_data = self.reversed_index.index[term]
-        if term_data:
-            current = term_data
-            while current:
-                docs.add(current.doc_ID)
-                current = current.next
-        return docs
+        return self.reversed_index.get_docs(term)
 
     def get_word_list_for_docs(self, doc_list):
         for doc_id in doc_list:
@@ -67,35 +51,26 @@ class Ranker:
         return math.log(self.total_docs / (docs_with_term))
 
     def calculate_tf_idf(self):
-        collection_set = set()
-        for term in self.reversed_index.index.keys():
-            doc_list = self.get_docs_from_reversed_index(term)
-            collection_set.update(doc_list)
-        self.get_word_list_for_docs(collection_set)
-
-        # here term is they wordID 
-        # term_data is head of the list of docs 
-        for term, head in self.reversed_index.index.items():
+        for term,head in self.reversed_index.index.items():
             docs_with_term = self.reversed_index.get_num_docs_for_word(term)
             idf = self.calculate_idf(docs_with_term)
-            current = head
-            while current:
-                doc_ID = current.doc_ID
-                tf = self.calculate_tf(current.frequency, current.doc_length)
+
+            for keys,values in head.items():
+                doc_ID = keys
+                tf = self.calculate_tf(values.frequency,values.doc_length)
                 tf_idf = tf * idf
 
                 if doc_ID not in self.tf_idf_matrix:
                     self.tf_idf_matrix[doc_ID] = {}
 
                 self.tf_idf_matrix[doc_ID][term] = tf_idf
-                current = current.next
-    
+            
     def vectorize_query(self, query):
         query_vector = {}
         query_words = query.split()
         total_query_words = len(query_words)
         for word in query_words:
-            if word in self.word_list:
+            if word in self.reversed_index.lexicon.dicWord:
                 term = self.reversed_index.lexicon.getWordId(word)
                 docs_with_term = self.reversed_index.get_num_docs_for_word(term)
                 idf = self.calculate_idf(docs_with_term)
@@ -105,13 +80,15 @@ class Ranker:
         return query_vector
 
     def calculate_cosine_similarity(self, vector1, vector2):
-        dot_product = 0.0
-        for key in vector1:
-            if key in vector2:
-                dot_product += vector1[key] * vector2[key]
+        keys1, values1 = zip(*vector1.items())
+        keys2, values2 = zip(*vector2.items())
 
-        magnitude1 = math.sqrt(sum(v ** 2 for v in vector1.values()))
-        magnitude2 = math.sqrt(sum(v ** 2 for v in vector2.values()))
+        common_keys = set(keys1) & set(keys2)
+
+        dot_product = np.dot([vector1[key] for key in common_keys], [vector2[key] for key in common_keys])
+
+        magnitude1 = np.linalg.norm(values1)
+        magnitude2 = np.linalg.norm(values2)
 
         if magnitude1 == 0 or magnitude2 == 0:
             return 0

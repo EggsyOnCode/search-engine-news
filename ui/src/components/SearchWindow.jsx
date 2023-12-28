@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import logo2 from "./../assets/logo2.png";
 import { SearchResult } from "./SearchResult";
+import NewDoc from "./NewDoc";
 
 export default function SearchWindow() {
   const [query, setQuery] = useState("");
@@ -32,24 +33,29 @@ export default function SearchWindow() {
           alt="Google Logo"
           className="w-48 mb-6 mx-auto logo bg-transparent"
         />
-        <div className="flex items-center justify-center">
-          <input
-            type="text"
-            placeholder="Search Google"
-            className="py-2 px-4 text-lg border border-gray-300 rounded-l-lg focus:outline-none focus:border-blue-500"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
-          <button
-            className="py-3 px-4 bg-blue-500 text-white rounded-r-lg hover:bg-blue-600 transition duration-300 focus:outline-none"
-            onClick={handleSearch}
-          >
-            Search
+        <div className="flex flex-row justify-center">
+          <div className="flex items-center justify-center mr-6">
+            <input
+              type="text"
+              placeholder="Search Google"
+              className="py-2 px-4 text-lg border border-gray-300 rounded-l-lg focus:outline-none focus:border-blue-500"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+            <button
+              className="py-3 px-4 bg-blue-500 text-white rounded-r-lg hover:bg-blue-600 transition duration-300 focus:outline-none"
+              onClick={handleSearch}
+            >
+              Search
+            </button>
+          </div>
+          <button className="bg-purple-50 p-3 rounded-lg">
+            <NewDoc />
           </button>
         </div>
       </div>
       <div className="flex-1 overflow-y-auto mt-[calc(50vh + 4rem)] w-full">
-        <div className="flex justify-start items-center bg-slate-400 px-8"> 
+        <div className="flex justify-start items-center bg-slate-400 px-8">
           <h1 className="font-bold text-black text-xl">
             {results.length} results in {duration.toFixed(2)} sec duration
           </h1>

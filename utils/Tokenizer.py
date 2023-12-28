@@ -1,11 +1,13 @@
 import json
 import codecs
+import hashlib
+import concurrent.futures
+import threading
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 import string
-import hashlib
+import os
 import nltk
-import os 
 
 # Download NLTK stopwords if not already downloaded
 nltk.download('stopwords')
@@ -109,4 +111,24 @@ class Tokenizer:
     def serialize_metadata(self, output_file):
         with open(output_file, 'w') as meta_file:
             json.dump(self.metadata, meta_file, indent=2)
+        
+    # func for dynamic json file addition
+    def dynamic_json_addition(self, json_data):
+        new_data = self.process_json(json_data)
+        
+        # Concurrently update the output file
+        # threading.Thread(target=self.update_output_file, args=(new_data, output_file)).start()
+
+        return new_data
+
+    def update_output_file(self, new_data, output_file):
+        with open(output_file, 'r+') as file:
+            try:
+                current_data = json.load(file)
+            except json.JSONDecodeError:
+                current_data = []
+
+            current_data.append(new_data)
+            file.seek(0)
+            json.dump(current_data, file, ensure_ascii=False, indent=2)
             

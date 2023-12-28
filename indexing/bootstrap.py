@@ -3,6 +3,7 @@ import time
 from forward_index import ForwardIndex
 from reversed_index import ReversedIndex
 from ranker import Ranker
+import json
 import sys
 sys.path.append("/home/xen/Desktop/code/search-engine-news")
 
@@ -40,7 +41,7 @@ class Bootstrap:
         end_time = time.time()
 
         execution_time = end_time - start_time
-        print("ranked docs are: ", ranked_documents)
+        # print("ranked docs are: ", ranked_documents)
         print(f"Execution time for query '{query}': {execution_time} seconds")
 
         # print("Ranked Documents:")
@@ -61,3 +62,18 @@ class Bootstrap:
 
         # Return JSON response
         return (response)
+    
+    # func for dynamic doc addition
+    def addDoc(self, json_file):
+        print("printing contents of the file...")
+        json_object = json.loads(json_file)
+        print(json_object["content"])
+        tokenizer = Tokenizer(self.meta_data_store)
+        tokenized_file = tokenizer.dynamic_json_addition(json_object)
+        print("tokenized file..", tokenized_file)
+        temp_forward_index = self.forward_index.create_temp_forward_index(tokenized_file)
+        print("temp forward index....")
+        print(temp_forward_index)
+        self.reversed_index.addNewFile(temp_forward_index)
+        self.ranker.calculate_tf_idf()
+        

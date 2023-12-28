@@ -19,10 +19,12 @@ class ForwardIndex:
         self.index = defaultdict(ListNode)
         self.repo_length = 0
     
-    def genIndex(self, file_path="./test_data/output1.json"):
+    # uses the tokenized json of the whole dataset to generate forward index 
+    def genIndex(self, file_path="./data/tokenized/processed_output.json"):
         with open(file_path, 'r', encoding='utf-8') as file:
             list_of_documents = json.load(file)
             self.repo_length = (len(list_of_documents))
+            print(self.repo_length)
             self.save_total_docs()
 
             for doc in list_of_documents:
@@ -42,6 +44,8 @@ class ForwardIndex:
                     'word_list': list_node,
                     'doc_length': doc_length
                 }
+                
+            # print(len(self.index))
 
     def insert_word_list(self, word_list):
         if not word_list:

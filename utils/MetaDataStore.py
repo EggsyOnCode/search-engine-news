@@ -22,4 +22,6 @@ class MetaDataStore:
     def deserialize_metadata(self, input_file):
         # Read metadata index from a file
         with open(input_file, 'r', encoding='utf-8') as metadata_file:
-            self.metadata_index = json.load(metadata_file)
+            metadata_index = json.load(metadata_file)
+        for items in metadata_index:
+            self.metadata_index[items['doc_hash']] = {'title': items['title'],'source:': items['source'],'date': items['date'],'url':items['url']}

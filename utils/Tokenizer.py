@@ -109,3 +109,4 @@ class Tokenizer:
     def serialize_metadata(self, output_file):
         with open(output_file, 'w') as meta_file:
             json.dump(self.metadata, meta_file, indent=2)
+            

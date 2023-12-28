@@ -103,7 +103,7 @@ class ReversedIndex:
         return count
 
     #store reversed index in json
-    def serialize_index(self, folder_path="./data/reversed_index"):
+    def serialize_index(self, folder_path="../data/reversed_index"):
         serialized_index = {}
         for key, head in self.index.items():
             serialized_index[key] = self.serialize_linked_list(head)
@@ -129,7 +129,7 @@ class ReversedIndex:
         return serialized_list
     
     #store lexicon in json
-    def serialize_lexicon(self, folder_path="./data/lexicon/"):
+    def serialize_lexicon(self, folder_path="../data/lexicon/"):
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
 
@@ -159,7 +159,7 @@ class ReversedIndex:
         return head
     
 #extract lexicon from json
-    def deserialize_lexicon(self,file_path="./data/lexicon/lexicon.json"):
+    def deserialize_lexicon(self,file_path="../data/lexicon/lexicon.json"):
         with open(file_path, 'r') as file:
             serialized_lex = json.load(file)
         for key,value in serialized_lex.items():

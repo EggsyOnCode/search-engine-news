@@ -21,9 +21,9 @@ class Bootstrap:
         self.init_ranker()
 
     def init_ranker(self):
-        file_path_input = './data/forward_index/new_index.json'
-        file_path_input2 = './data/reversed_index/reversed_index.json'
-        file_path_input3 = './data/meta_data_store/metaDataStore.json'
+        file_path_input = '../data/forward_index/new_index.json'
+        file_path_input2 = '../data/reversed_index/reversed_index.json'
+        file_path_input3 = '../data/meta_data_store/metaDataStore.json'
 
         self.meta_data_store.deserialize_metadata(file_path_input3)
         self.forward_index.deserialize_index_from_json(file_path_input)

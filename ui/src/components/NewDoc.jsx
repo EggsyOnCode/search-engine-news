@@ -38,12 +38,12 @@ const NewDoc = () => {
       {showModal && (
         <div className="modal">
           <div className="modal-content">
-            <span className="close" onClick={() => setShowModal(false)}>
+            <span className="close font-bold text-2xl bg-red-500 p-1 rounded-full" onClick={() => setShowModal(false)}>
               &times;
             </span>
             <h2>Add JSON Document</h2>
             <input type="file" onChange={handleFileChange} />
-            <button onClick={handleSubmit}>Submit</button>
+            <button onClick={handleSubmit} className="bg-purple-200 p-1 rounded-lg">Submit</button>
           </div>
         </div>
       )}

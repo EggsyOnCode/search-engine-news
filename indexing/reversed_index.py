@@ -129,8 +129,8 @@ class ReversedIndex:
         json_files = [filename for filename in os.listdir(directory) if filename.endswith('.json')]
     
     # Sort the files based on the number extracted from their filenames
-        # sorted_json_files = sorted(json_files, key=self.get_number_from_filename)
-        sorted_json_files = ["barrel_40.json"]
+        sorted_json_files = sorted(json_files, key=self.get_number_from_filename)
+        # sorted_json_files = ["barrel_40.json"]
         return sorted_json_files
 
     #it is important to sort the files before storing them barrels to ensure proper lookup

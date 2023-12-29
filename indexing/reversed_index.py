@@ -4,7 +4,9 @@ import sys
 from forward_index import ForwardIndex
 from collections import defaultdict
 
+
 sys.path.append("/home/xen/Desktop/code/search-engine-news")
+
 
 #Linked List Node stroing docId and frequency of the word in doc
 class ListNode:
@@ -85,6 +87,7 @@ class ReversedIndex:
 
 
     def generate_doc_list_barrel(self,head):
+
         docList = set()
         for items,values in head.items():
             docList.append({
@@ -94,6 +97,7 @@ class ReversedIndex:
             })
         return docList
     
+
     def generate_doc_list(self,wordId):
         docList = set()
         head = self.index[wordId]
@@ -108,6 +112,7 @@ class ReversedIndex:
             self.deserialize_barrel("./barrels")
         else:
             self.deserialize_index_from_json("./data/reversed_index/reversed_index.json")
+
 
 
     def get_num_docs_for_word(self, wordID):
@@ -126,6 +131,7 @@ class ReversedIndex:
 
     def get_sorted_json_files(self,directory):
     # Get all files in the directory ending with '.json'
+
         json_files = [filename for filename in os.listdir(directory) if filename.endswith('.json')]
     
     # Sort the files based on the number extracted from their filenames
@@ -147,6 +153,7 @@ class ReversedIndex:
         for key, head in self.index.items():
             serialized_index[key] = self.serialize_linked_list(head)
 
+
         folder_path = "../data/reversed_index"
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
@@ -164,6 +171,7 @@ class ReversedIndex:
     
 #store lexicon in json
     def serialize_lexicon(self):
+
         folder_path = "../data/lexicon"
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
@@ -199,4 +207,5 @@ class ReversedIndex:
             count += 1
             self.lexicon.dicWordId[key] = value
             self.lexicon.dicWord[value] = key
+
         self.lexicon.count = count -1

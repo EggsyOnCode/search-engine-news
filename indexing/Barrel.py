@@ -71,6 +71,6 @@ class Barrel:
     
 # Example usage
 delimiter_value = 2500  # Replace with your desired delimiter
-barrel = Barrel(reverse_index_file_path, delimiter_value)
+barrel = Barrel("./data/reversed_index/reversed_index.json", delimiter_value)
 barrel.read_json()
 barrel.divide_barrel()

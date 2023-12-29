@@ -19,10 +19,12 @@ class ForwardIndex:
         self.index = defaultdict(ListNode)
         self.repo_length = 0
     
-    def genIndex(self, file_path="./test_data/output1.json"):
+    # uses the tokenized json of the whole dataset to generate forward index 
+    def genIndex(self, file_path="./data/tokenized/processed_output.json"):
         with open(file_path, 'r', encoding='utf-8') as file:
             list_of_documents = json.load(file)
             self.repo_length = (len(list_of_documents))
+            print(self.repo_length)
             self.save_total_docs()
 
             for doc in list_of_documents:
@@ -42,17 +44,10 @@ class ForwardIndex:
                     'word_list': list_node,
                     'doc_length': doc_length
                 }
+                
+            # print(len(self.index))
 
-    def insert_word_list(self, word_list):
-        if not word_list:
-            return None
-
-        head = ListNode(word_list[0])
-        current = head
-        for word in word_list[1:]:
-            current.next = ListNode(word)
-            current = current.next
-        return head
+    
 
     def get_word_list(self, title):
         if title in self.index:
@@ -136,3 +131,37 @@ class ForwardIndex:
 
         with open(constants_file_path, 'w', encoding='utf-8') as constants_file:
             json.dump(data, constants_file, ensure_ascii=False, indent=2)
+    
+    
+    # this func is for dynamic doc addition
+    def create_temp_forward_index(self, tokenized_json):
+        temp_index = ForwardIndex()
+        temp_index.index = defaultdict(dict)
+
+        title = tokenized_json.get('title', '')
+        hash_object = hashlib.sha256(title.encode())
+        hash_value = hash_object.hexdigest()
+
+        word_list = tokenized_json.get('word_list', [])
+        doc_length = len(word_list)
+
+        list_node = self.insert_word_list(word_list)
+
+        temp_index.index[hash_value] = {
+            'word_list': list_node,
+            'doc_length': doc_length
+        }
+
+        return temp_index
+    
+    def insert_word_list(self, word_list):
+        if not word_list:
+            return None
+
+        head = ListNode(word_list[0])
+        current = head
+        for word in word_list[1:]:
+            current.next = ListNode(word)
+            current = current.next
+        return head
+    

@@ -4,3 +4,5 @@ indexing/__pycache__/*/*
 data/
 ui/node_modules
 ui/public
+final_dataset/
+barrels/

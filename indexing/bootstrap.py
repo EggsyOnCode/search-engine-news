@@ -3,6 +3,7 @@ import time
 from forward_index import ForwardIndex
 from reversed_index import ReversedIndex
 from ranker import Ranker
+import json
 import sys
 sys.path.append("/home/xen/Desktop/code/search-engine-news")
 
@@ -13,22 +14,21 @@ class Bootstrap:
     def __init__(self):
         self.meta_data_store = MetaDataStore()
         self.forward_index = ForwardIndex()
-        self.reversed_index = ReversedIndex()
+        self.reversed_index = ReversedIndex("search from barrel",2500)
         self.ranker = None
 
-        self.total_docs = 9977
+        self.total_docs = 115114
 
         self.init_ranker()
 
     def init_ranker(self):
-        file_path_input = '../data/forward_index/new_index.json'
-        file_path_input2 = '../data/reversed_index/reversed_index.json'
-        file_path_input3 = '../data/meta_data_store/metaDataStore.json'
+        file_path_input = './data/forward_index/new_index.json'
+        file_path_input2 = './data/reversed_index/reversed_index.json'
+        file_path_input3 = './data/meta_data_store/metaDataStore.json'
 
         self.meta_data_store.deserialize_metadata(file_path_input3)
         self.forward_index.deserialize_index_from_json(file_path_input)
-        self.reversed_index.deserialize_index_from_json(file_path_input2)
-        self.reversed_index.deserialize_lexicon()
+        self.reversed_index.deserialize()
 
         self.ranker = Ranker(self.reversed_index, self.forward_index, self.meta_data_store, self.total_docs)
 
@@ -41,7 +41,8 @@ class Bootstrap:
         end_time = time.time()
 
         execution_time = end_time - start_time
-        # print(f"Execution time for query '{query}': {execution_time} seconds")
+        # print("ranked docs are: ", ranked_documents)
+        print(f"Execution time for query '{query}': {execution_time} seconds")
 
         # print("Ranked Documents:")
         # for index, similarity in ranked_documents:
@@ -61,4 +62,18 @@ class Bootstrap:
 
         # Return JSON response
         return (response)
-
+    
+    # func for dynamic doc addition
+    def addDoc(self, json_file):
+        print("printing contents of the file...")
+        json_object = json.loads(json_file)
+        print(json_object["content"])
+        tokenizer = Tokenizer(self.meta_data_store)
+        tokenized_file = tokenizer.dynamic_json_addition(json_object)
+        print("tokenized file..", tokenized_file)
+        temp_forward_index = self.forward_index.create_temp_forward_index(tokenized_file)
+        print("temp forward index....")
+        print(temp_forward_index)
+        self.reversed_index.addNewFile(temp_forward_index)
+        self.ranker.calculate_tf_idf()
+        

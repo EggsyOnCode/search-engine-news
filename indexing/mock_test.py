@@ -1,5 +1,5 @@
 from forward_index import ForwardIndex
-from reversed_index import ReversedIndex
+from indexing.reversed_index import ReversedIndex
 from utils.MetaDataStore import MetaDataStore
 from utils.Tokenizer import Tokenizer
 from ranker import Ranker

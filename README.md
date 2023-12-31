@@ -3,9 +3,9 @@
 # Submitted To [Dr. Faisal Shafiat](https://scholar.google.com/citations?user=o9RCNZYAAAAJ&hl=en)
 
 # Group Members
-  Farzan Saqib  417633
-  Haroon Tahir  414645
-  Rohaan Ahmad  429399
+  - Farzan Saqib  
+  - Haroon Tahir  
+  - Rohaan Ahmad  
 
    
 

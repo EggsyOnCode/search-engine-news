@@ -1,6 +1,4 @@
-# Data Structures & Algorithms End Semester Project Fall-2023
-
-# Submitted To [Dr. Faisal Shafiat](https://scholar.google.com/citations?user=o9RCNZYAAAAJ&hl=en)
+# Search Engine For News 
 
 # Group Members
   - Farzan Saqib  
@@ -8,7 +6,6 @@
   - Rohaan Ahmad  
 
    
-
 # Setting Up
     
 
@@ -55,7 +52,11 @@
     Backend is in Python.
     
     
-# Based on
-# Search Engine Implementation [Large-Scale Hypertextual Web Search Engine](http://infolab.stanford.edu/~backrub/google.html)
+> Based on Search Engine Implementation [Large-Scale Hypertextual Web Search Engine](http://infolab.stanford.edu/~backrub/google.html)
+
+
+
+
+https://github.com/EggsyOnCode/search-engine-news/assets/77304003/bdcd4c0d-0375-4975-9ab0-9706b17398ff
 
 

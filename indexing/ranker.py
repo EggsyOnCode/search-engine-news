@@ -3,7 +3,7 @@ import math
 from forward_index import ForwardIndex
 from reversed_index import ReversedIndex, Lexicon
 import sys
-sys.path.append("/home/xen/Desktop/code/search-engine-news")
+sys.path.append(r"/Users/Haroo/Downloads/search-engine-news-main (1)/search-engine-news-main")
 from utils.MetaDataStore import MetaDataStore 
 import numpy as np
 
